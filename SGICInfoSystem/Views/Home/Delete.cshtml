@@ -1,0 +1,128 @@
+﻿@model SGICInfoSystem.Models.Essay
+
+@{
+    ViewBag.Title = "Удаление записи";
+}
+
+<h2>Удаление записи</h2>
+
+<h3>Вы уверены что хотите удлить запись?</h3>
+<div>
+    <h4>Реферат</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.nomer)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.nomer)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.tema1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.tema1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.tema2)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.tema2)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Aftor)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Aftor)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Naz)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Naz)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Org)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Org)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Gorod)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Gorod)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.God)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.God)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Str)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Str)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Ilustr)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Ilustr)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Slova)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Slova)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Referat)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Referat)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Mesto)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Mesto)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Назад к записям", "Table")
+        </div>
+    }
+</div>

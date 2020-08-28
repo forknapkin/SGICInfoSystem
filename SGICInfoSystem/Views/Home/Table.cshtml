@@ -1,0 +1,346 @@
+﻿@model IEnumerable<SGICInfoSystem.Models.Essay>
+
+@{
+    ViewBag.Title = "Рефераты";
+}
+
+
+<style>
+    .cell {
+        max-width: 150px;
+        white-space: nowrap;
+        overflow: hidden;
+    }
+
+    td {
+        max-width: 250px;
+        white-space: nowrap;
+        overflow: hidden;
+    }
+    /* Меню боковой панели */
+    .searchpan {
+        height: 100%; /* Полная высота: удалите это, если вы хотите "авто" высота */
+        width: 250px; /* Установите ширину боковой панели */
+        position: fixed; /* Фиксированная боковая панель (оставайтесь на месте при прокрутке) */
+        z-index: 2; /* Оставайтесь с верху */
+        top: 0; /* Оставайтесь на вершине */
+        left: 0;
+        /*background-color: #111;*/ /* Черный */
+        overflow: scroll;
+        padding-top: 50px;
+        background-color: white;
+    }
+    .toolbar{
+        width:100%;
+        height: 75px;
+        position: fixed;
+        z-index: 1; /* Оставайтесь с верху */
+        bottom: 0; /* Оставайтесь снизу */
+        right: 0;
+        overflow: scroll;
+        background-color: white;
+        padding-left: 250px;
+    }
+    .toolbar input{
+        margin: 10px;
+    }
+    .main {
+        margin-left: 150px;
+        padding: 0px 10px;
+        padding-bottom: 75px;
+        /*overflow-x: scroll;*/
+    }
+
+    .searchpan div {
+        padding: 2px 8px 2px 16px;
+        text-decoration: none;
+        /*font-size: 25px;*/
+        color: #818181;
+        display: block;
+    }
+
+    .divinline div {
+        display: inline;
+    }
+
+    .divinline label {
+        font-size: 10px;
+    }
+
+    input[type="radio"] {
+    }
+    .chkCheckBoxId{}
+</style>
+<div class="searchpan">
+    @*@using (Html.BeginForm())*@
+    @using (Ajax.BeginForm("EssaySearch", new AjaxOptions { UpdateTargetId = "mainTable" }))
+    
+{
+        <div class="divinline">
+            @Html.CheckBox("CbNumber")
+            @Html.Label("lblNumber", "Номер")
+        </div>
+        <div class="divinline">
+            @Html.TextBox("TbNumber")
+        </div>
+
+        <div class="divinline">
+            @Html.CheckBox("CbToNumber")
+            @Html.Label("lblToNumber", "До")
+        </div>
+        <div class="divinline">
+            @Html.TextBox("TbToNumber")
+        </div>
+
+        <div class="divinline">
+            @Html.CheckBox("cbrubrika")
+            @Html.Label("lblrubrika", "Рубрика")
+        </div>
+        <div class="divinline">
+            @Html.TextBox("tbrubrika")
+        </div>
+
+        <div class="divinline">
+            @Html.CheckBox("cbauthor")
+            @Html.Label("cbauthor", "Автор")
+        </div>
+        <div class="divinline">
+            @Html.TextBox("tbauthor")
+        </div>
+        <div class="divinline">
+            @Html.CheckBox("cbnaz")
+            @Html.Label("cbnaz", "Название")
+        </div>
+        <div class="divinline">
+            @Html.TextBox("tbnaz")
+        </div>
+
+        <div class="divinline">
+            @Html.CheckBox("cborg")
+            @Html.Label("cborg", "Организация")
+        </div>
+        <div class="divinline">
+            @Html.TextBox("tborg")
+        </div>
+        <div class="divinline">
+            @Html.CheckBox("cbgorod")
+            @Html.Label("cbgorod", "Город")
+        </div>
+        <div class="divinline">
+            @Html.TextBox("tbgorod")
+        </div>
+        <div class="divinline">
+            @Html.CheckBox("cbgod")
+            @Html.Label("lblgod", "Год")
+        </div>
+        <div class="divinline">
+            @Html.TextBox("tbgod")
+        </div>
+        <div class="divinline">
+            @Html.CheckBox("cbtogod")
+            @Html.Label("lbltogod", "До")
+        </div>
+        <div class="divinline">
+            @Html.TextBox("tbtogod")
+        </div>
+        <div class="divinline">
+            @Html.CheckBox("cbslova")
+            @Html.Label("lblslova", "Ключевые слова")
+        </div>
+        <div class="divinline">
+            @Html.RadioButton("rbslova", "and", true)
+            @Html.Label("and", "И")
+            @Html.RadioButton("rbslova", "or")
+            @Html.Label("or", "ИЛИ")
+            @Html.RadioButton("rbslova", "complex")
+            @Html.Label("Сложный", "Сложный")
+        </div>
+        <div class="divinline">
+            @Html.TextBox("tbslova")
+        </div>
+        <div class="divinline">
+            @Html.CheckBox("cbexslova")
+            @Html.Label("lblexslova", "Исключения по кл. словам")
+        </div>
+        <div class="divinline">
+            @Html.RadioButton("rbexslova", "И", true)
+            @Html.Label("И", "И")
+            @Html.RadioButton("rbexslova", "ИЛИ")
+            @Html.Label("ИЛИ", "ИЛИ")
+            @Html.RadioButton("rbexslova", "Сложный")
+            @Html.Label("Сложный", "Сложный")
+        </div>
+        <div class="divinline">
+            @Html.TextBox("tbexslova")
+        </div>
+        <div class="divinline">
+            @Html.CheckBox("cbaccuracy")
+            @Html.Label("lblaccuracy", "Точный поиск")
+        </div>
+        <div class="divinline">
+            @Html.CheckBox("cbreferat")
+            @Html.Label("cbreferat", "Реферат")
+        </div>
+        <div class="divinline">
+            @Html.TextBox("tbreferat")
+        </div>
+        <div class="divinline">
+            @Html.CheckBox("cbplace")
+            @Html.Label("cbplace", "Место")
+        </div>
+        <div class="divinline">
+            @Html.TextBox("tbplace")
+        </div>
+        <div class="divinline">
+            <input type="submit" value="Поиск" class="btn btn-default" />
+        </div>
+    }
+
+</div>
+@using (Html.BeginForm("ReportWord", "Home"))
+{
+<div class="toolbar">
+    <input type="submit" id="btnWord" name ="Word" value="Word" class="btn btn-default" />
+    @*<input type="submit" id="btnWord2" name ="Word2" value="Word2" class="btn btn-default" />
+    <input type="button" value="Word2" onclick="location.href='@Url.Action("ReportWord", "Home")'" />*@
+</div>
+<div class="main" id="mainTable">
+    @Html.Partial("Search")
+    @*<h2>Рефераты</h2>
+
+    <p>
+        @Html.ActionLink("Добавить запись", "Create")
+    </p>
+    <p>
+        Найдено записей: @Model.Count()
+    </p>
+    <table class="table" id="dataTable">
+        <thead>
+            <tr>
+                <th></th>
+                <th><input type="checkbox" id="checkBoxAll" /></th>
+                <th>
+                    @Html.DisplayNameFor(model => model.nomer)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.tema1)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.tema2)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Aftor)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Naz)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Org)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Gorod)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.God)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Str)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Ilustr)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Slova)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Referat)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Mesto)
+                </th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.ActionLink("Изменить", "EditEssay", new { id = item.Id }) |
+                        @Html.ActionLink("Просмотр", "Details", new { id = item.Id }) |
+                        @Html.ActionLink("Удалить", "Delete", new { id = item.Id })
+                    </td>
+                    <td><input type="checkbox" class="chkCheckBoxId" name="ID" value="@item.Id"/></td>  
+                    <td>
+                        @Html.DisplayFor(modelItem => item.nomer)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.tema1)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.tema2)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Aftor)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Naz)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Org)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Gorod)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.God)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Str)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Ilustr)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Slova)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Referat)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Mesto)
+                    </td>
+
+                </tr>
+            }
+        </tbody>
+    </table>*@
+</div>
+}
+<script>
+    @*@Scripts.Render("~/scripts/jquery-1.10.2.min.js")
+    @Scripts.Render("~/scripts/jquery.unobtrusive-ajax.min.js")*@
+    //$(document).ready(function () {
+    //    $('#example').DataTable({
+    //        "scrollY": 200,
+    //        "scrollX": true
+    //    });
+    //});
+
+    //$(document).ready(function () {
+    //    $("#btnSearch").click(function () {
+
+    //        $.ajax(
+    //        {
+    //            type: "POST", //HTTP POST Method
+    //            url: "Home/Table", // Controller/View
+    //            data: { //Passing data
+    //                //Reading text box values using Jquery
+    //                form: $("#searchForm").serializeArray()
+    //            }
+    //        }).success(function() {
+    //            $("#theTable").load("/YourControllerName/TableData");
+    //        });
+    //    });
+    //});
+</script>
