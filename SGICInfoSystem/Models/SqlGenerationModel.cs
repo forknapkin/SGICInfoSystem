@@ -103,14 +103,14 @@ namespace SGICInfoSystem.Models
         }
         private string AuthorChecked()
         {
-            string author = form["tbauthor"] = form["tbauthor"].Trim(' ');
+            string author = form["tbauthor"];
             string sqlPart = "";
             // без параметров
             /*string sqlPart = string.Format("(Aftor LIKE '{0}' OR Aftor " + 
                 "LIKE '{0} %' OR Aftor LIKE '% {0} %' OR Aftor LIKE '% {0}' OR Aftor LIKE '{0},' OR " + 
                 "Aftor LIKE '{0}, %' OR Aftor LIKE '% {0}, %' OR Aftor LIKE '% {0},') and", author);*/
             //([t0].[Aftor] LIKE 'панченко' OR [Aftor] LIKE 'панченко %' OR [Aftor] LIKE '% панченко %' OR [Aftor] LIKE '% панченко'OR [Aftor] LIKE 'панченко,' OR [Aftor] LIKE 'панченко, %' OR [Aftor] LIKE '% панченко, %' OR [Aftor] LIKE '% панченко,')
-            if (!string.IsNullOrEmpty(author))
+            if (!string.IsNullOrEmpty(form["tbauthor"]))
             {
                 // параметризованный запрос
                 sqlPart = "(Aftor LIKE @author1 OR Aftor LIKE @author2 "

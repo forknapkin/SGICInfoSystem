@@ -1,4 +1,9 @@
-﻿@model IEnumerable<SGICInfoSystem.Models.Essay>
+﻿@model PagedList.IPagedList<SGICInfoSystem.Models.Essay>
+@using Microsoft.AspNet.Identity
+@using SGICInfoSystem.Helpers
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+@*@model IEnumerable<SGICInfoSystem.Models.Essay>*@
 
 @{
     ViewBag.Title = "Рефераты";
@@ -205,58 +210,64 @@
     <input type="button" value="Word2" onclick="location.href='@Url.Action("ReportWord", "Home")'" />*@
 </div>
 <div class="main" id="mainTable">
-    @Html.Partial("Search")
-    @*<h2>Рефераты</h2>
-
+   @* @Html.Partial("Search")*@
+    <h2>Рефераты</h2>
+    @if (User.Identity.GetUserName() == "Admin")
+    {
+        <p>
+            @Html.ActionLink("Добавить запись", "Create")
+        </p>
+    }
     <p>
-        @Html.ActionLink("Добавить запись", "Create")
-    </p>
-    <p>
-        Найдено записей: @Model.Count()
+        Найдено записей: @ViewBag.Count
     </p>
     <table class="table" id="dataTable">
         <thead>
             <tr>
+                @if (User.Identity.GetUserName() == "Admin")
+                {
+                    <th></th>
+                }
                 <th></th>
                 <th><input type="checkbox" id="checkBoxAll" /></th>
                 <th>
-                    @Html.DisplayNameFor(model => model.nomer)
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().nomer)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.tema1)
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().tema1)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.tema2)
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().tema2)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Aftor)
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().Aftor)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Naz)
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().Naz)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Org)
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().Org)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Gorod)
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().Gorod)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.God)
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().God)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Str)
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().Str)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Ilustr)
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().Ilustr)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Slova)
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().Slova)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Referat)
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().Referat)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Mesto)
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().Mesto)
                 </th>
 
             </tr>
@@ -265,12 +276,17 @@
             @foreach (var item in Model)
             {
                 <tr>
+                    @if (User.Identity.GetUserName() == "Admin")
+                    {
+                        <td>
+                            @Html.ActionLink("Изменить", "EditEssay", new { id = item.Id }) |
+                            @Html.ActionLink("Удалить", "Delete", new { id = item.Id })
+                        </td>
+                    }
                     <td>
-                        @Html.ActionLink("Изменить", "EditEssay", new { id = item.Id }) |
-                        @Html.ActionLink("Просмотр", "Details", new { id = item.Id }) |
-                        @Html.ActionLink("Удалить", "Delete", new { id = item.Id })
+                        @Html.ActionLink("Просмотр", "Details", new { id = item.Id })
                     </td>
-                    <td><input type="checkbox" class="chkCheckBoxId" name="ID" value="@item.Id"/></td>  
+                    <td><input type="checkbox" class="chkCheckBoxId" name="ID" value="@item.Id" /></td>
                     <td>
                         @Html.DisplayFor(modelItem => item.nomer)
                     </td>
@@ -314,7 +330,11 @@
                 </tr>
             }
         </tbody>
-    </table>*@
+    </table>
+    <br />
+    Страница @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) из @Model.PageCount
+
+    @Html.PagedListPager(Model, page => Url.Action("Table", new { page }))
 </div>
 }
 <script>

@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
+using PagedList.Mvc;
+using PagedList;
 
 namespace SGICInfoSystem.Controllers
 {
@@ -22,10 +24,19 @@ namespace SGICInfoSystem.Controllers
         //Таблица с записями
         [Authorize(Users = "Admin, User")]
         [HttpGet]
-        public ActionResult Table()
+        public ActionResult Table(int? page)
         {
-            var essays = db.Essays;
-            return View(essays.ToList().Take(50));
+            //int pageSize = 50;
+            //IEnumerable<Essay> essaysPerPage = db.Essays.OrderBy(essay => essay.nomer).Skip((page - 1) * pageSize).Take(pageSize);
+            //PageInfo pageInfo = new PageInfo { PageNumber = page, PageSize = pageSize, TotalItems = db.Essays.Count()};
+            //PageViewModel pvm = new PageViewModel {PageInfo = pageInfo, Essays = essaysPerPage };
+            //return View(pvm);
+            int pageSize = 100;
+            int pageNumber = (page ?? 1);
+            ViewBag.Count = db.Essays.ToList().Count;
+            return View(db.Essays.OrderBy(e => e.nomer).ToPagedList(pageNumber, pageSize));
+            //var essays = db.Essays;
+            //return View(essays.ToList().Take(50));
 
         }
         [HttpGet]
