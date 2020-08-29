@@ -1,0 +1,215 @@
+﻿@model PagedList.IPagedList<SGICInfoSystem.Models.Duplicate>
+@using Microsoft.AspNet.Identity
+@using SGICInfoSystem.Helpers
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+@{
+    ViewBag.Title = "Дуплетные записи";
+}
+
+<style>
+    .cell {
+        max-width: 150px;
+        white-space: nowrap;
+        overflow: hidden;
+    }
+
+    td {
+        max-width: 250px;
+        white-space: nowrap;
+        overflow: hidden;
+    }
+    /* Меню боковой панели */
+    .searchpan {
+        height: 100%; /* Полная высота: удалите это, если вы хотите "авто" высота */
+        width: 250px; /* Установите ширину боковой панели */
+        position: fixed; /* Фиксированная боковая панель (оставайтесь на месте при прокрутке) */
+        z-index: 2; /* Оставайтесь с верху */
+        top: 0; /* Оставайтесь на вершине */
+        left: 0;
+        /*background-color: #111;*/ /* Черный */
+        overflow: scroll;
+        padding-top: 50px;
+        background-color: white;
+    }
+
+    .toolbar {
+        width: 100%;
+        height: 75px;
+        position: fixed;
+        z-index: 1; /* Оставайтесь с верху */
+        bottom: 0; /* Оставайтесь снизу */
+        right: 0;
+        overflow: scroll;
+        background-color: white;
+        padding-left: 100px;
+    }
+
+        .toolbar input {
+            margin: 10px;
+        }
+
+    .main {
+        /*margin-left: 150px;*/
+        padding: 0px 10px;
+        padding-bottom: 75px;
+        /*overflow-x: scroll;*/
+    }
+
+    .searchpan div {
+        padding: 2px 8px 2px 16px;
+        text-decoration: none;
+        /*font-size: 25px;*/
+        color: #818181;
+        display: block;
+    }
+
+    .divinline div {
+        display: inline;
+    }
+
+    .divinline label {
+        font-size: 10px;
+    }
+
+    input[type="radio"] {
+    }
+
+    .chkCheckBoxId {
+    }
+</style>
+@using (Html.BeginForm("ReportWord", "Home"))
+{
+    <div class="toolbar">
+        <input type="submit" id="btnWord" name="Word" value="Word" class="btn btn-default" />
+        @*<input type="submit" id="btnWord2" name ="Word2" value="Word2" class="btn btn-default" />
+            <input type="button" value="Word2" onclick="location.href='@Url.Action("ReportWord", "Home")'" />*@
+    </div>
+    <div class="main" id="mainTable">
+        @* @Html.Partial("Search")*@
+        <h2>Рефераты</h2>
+        @if (User.Identity.GetUserName() == "Admin")
+        {
+            <p>
+                @Html.ActionLink("Добавить запись", "Create")
+            </p>
+        }
+        <p>
+            Найдено записей: @ViewBag.Count
+        </p>
+        <table class="table" id="dataTable">
+            <thead>
+                <tr>
+                    @if (User.Identity.GetUserName() == "Admin")
+                {
+                        <th></th>
+                    }
+                    <th></th>
+                    <th><input type="checkbox" id="checkBoxAll" /></th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().nomer)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().tema1)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().tema2)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().Aftor)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().Naz)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().Org)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().Gorod)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().God)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().Str)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().Ilustr)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().Slova)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().Referat)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().Mesto)
+                    </th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        @if (User.Identity.GetUserName() == "Admin")
+                    {
+                            <td>
+                                @Html.ActionLink("Изменить", "EditEssay", new { id = item.Id }) |
+                                @Html.ActionLink("Удалить", "Delete", new { id = item.Id })
+                            </td>
+                        }
+                        <td>
+                            @Html.ActionLink("Просмотр", "Details", new { id = item.Id })
+                        </td>
+                        <td><input type="checkbox" class="chkCheckBoxId" name="ID" value="@item.Id" /></td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.nomer)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.tema1)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.tema2)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Aftor)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Naz)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Org)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Gorod)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.God)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Str)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Ilustr)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Slova)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Referat)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Mesto)
+                        </td>
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <br />
+        Страница @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) из @Model.PageCount
+
+        @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+    </div>
+}
