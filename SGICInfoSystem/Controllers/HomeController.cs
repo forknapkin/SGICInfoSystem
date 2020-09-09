@@ -316,5 +316,21 @@ namespace SGICInfoSystem.Controllers
             db.Dispose();
             base.Dispose(disposing);
         }
+        [HttpGet]
+        public ActionResult DisplayFilter()
+        {
+            List<DisplayFilterModel> display = null;
+            if (Session["DisplayFilter"] != null)
+                display = (List<DisplayFilterModel>)Session["DisplayFilter"];
+            else
+            {
+                display = new List<DisplayFilterModel>();
+                display.Add(new DisplayFilterModel("Таблица").DefaultDisplayFilter());
+                display.Add(new DisplayFilterModel("Отчет").DefaultDisplayFilter());
+            }
+                
+            return View(display);
+        }
+        
     }
 }

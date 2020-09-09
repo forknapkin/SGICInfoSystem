@@ -1,0 +1,105 @@
+﻿@model IEnumerable<SGICInfoSystem.Models.DisplayFilterModel>
+
+@{
+    ViewBag.Title = "Фильтр";
+}
+
+@using (Html.BeginForm("DisplayFilter", "Home"))
+{
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Display)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.nomer)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.tema1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.tema2)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Aftor)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Naz)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Org)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Gorod)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.God)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Str)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Ilustr)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Slova)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Referat)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Mesto)
+        </th>
+    </tr>
+
+@foreach (var item in Model)
+{
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Display)
+        </td>
+        <td>
+            @Html.EditorFor(modelItem => item.nomer)
+        </td>
+        <td>
+            @Html.EditorFor(modelItem => item.tema1)
+        </td>
+        <td>
+            @Html.EditorFor(modelItem => item.tema2)
+        </td>
+        <td>
+            @Html.EditorFor(modelItem => item.Aftor)
+        </td>
+        <td>
+            @Html.EditorFor(modelItem => item.Naz)
+        </td>
+        <td>
+            @Html.EditorFor(modelItem => item.Org)
+        </td>
+        <td>
+            @Html.EditorFor(modelItem => item.Gorod)
+        </td>
+        <td>
+            @Html.EditorFor(modelItem => item.God)
+        </td>
+        <td>
+            @Html.EditorFor(modelItem => item.Str)
+        </td>
+        <td>
+            @Html.EditorFor(modelItem => item.Ilustr)
+        </td>
+        <td>
+            @Html.EditorFor(modelItem => item.Slova)
+        </td>
+        <td>
+            @Html.EditorFor(modelItem => item.Referat)
+        </td>
+        <td>
+            @Html.EditorFor(modelItem => item.Mesto)
+        </td>
+    </tr>
+}
+
+</table>
+<input type="submit" value="OK" class="btn btn-default" />
+}
