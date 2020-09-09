@@ -15,8 +15,13 @@ namespace SGICInfoSystem.Controllers
     public class HomeController : Controller
     {
         //Создаем контекст БД
-        GeologiyaContext db = new GeologiyaContext();
-       
+        GeologiyaContext db;
+        public HomeController()
+        {
+            db = new GeologiyaContext();
+            
+        }
+        [Authorize(Users = "Admin, User")]
         public ActionResult Index()
         {
             return View();
@@ -25,32 +30,30 @@ namespace SGICInfoSystem.Controllers
         [Authorize(Users = "Admin, User")]
         [HttpGet]
         public ActionResult Table(int? page)
-        {
-            //int pageSize = 50;
-            //IEnumerable<Essay> essaysPerPage = db.Essays.OrderBy(essay => essay.nomer).Skip((page - 1) * pageSize).Take(pageSize);
-            //PageInfo pageInfo = new PageInfo { PageNumber = page, PageSize = pageSize, TotalItems = db.Essays.Count()};
-            //PageViewModel pvm = new PageViewModel {PageInfo = pageInfo, Essays = essaysPerPage };
-            //return View(pvm);
+        {           
             int pageSize = 100;
             int pageNumber = (page ?? 1);
+                
             ViewBag.Count = db.Essays.ToList().Count;
-            return View(db.Essays.OrderBy(e => e.nomer).ToPagedList(pageNumber, pageSize));
-            //var essays = db.Essays;
-            //return View(essays.ToList().Take(50));
-
+            return View(db.Essays.OrderByDescending(e => e.nomer).ToPagedList(pageNumber, pageSize));            
         }
+        [Authorize(Users = "Admin, User")]
         [HttpGet]
-        public ActionResult List()
+        public ActionResult TableUz(int? page)
         {
-            var essays = db.Essays;
-            return View(essays.ToList().Take(500));
+            int pageSize = 100;
+            int pageNumber = (page ?? 1);
+
+            ViewBag.Count = db.UzEssays.ToList().Count;
+            return View(db.UzEssays.OrderByDescending(e => e.nomer).ToPagedList(pageNumber, pageSize));           
         }
+        
         [HttpPost, ActionName("Table")]
         public ActionResult Search()
         {
             SqlGenerationModel sqlModel = new SqlGenerationModel(Request.Form);
 
-            string sqlQuery = sqlModel.GenerateSqlQuery();
+            string sqlQuery = sqlModel.GenerateSqlQuery("essays");
             Debug.WriteLine(sqlQuery);
             var essays = db.Essays.SqlQuery(sqlQuery, sqlModel.SqlParams.ToArray());
             return View(essays.ToList());
@@ -60,21 +63,23 @@ namespace SGICInfoSystem.Controllers
         {
             SqlGenerationModel sqlModel = new SqlGenerationModel(Request.Form);
 
-            string sqlQuery = sqlModel.GenerateSqlQuery();
+            string sqlQuery = sqlModel.GenerateSqlQuery("essays");
             Debug.WriteLine(sqlQuery);
             var essays = db.Essays.SqlQuery(sqlQuery, sqlModel.SqlParams.ToArray());
             return PartialView("Search", essays.ToList());
         }
-        //[HttpPost, ActionName("Table")]
-        //public ActionResult Search(FormCollection form)
-        //{
-        //    SqlGenerationModel sqlModel = new SqlGenerationModel(form);
 
-        //    string sqlQuery = sqlModel.GenerateSqlQuery();
-        //    Debug.WriteLine(sqlQuery);
-        //    var essays = db.Essays.SqlQuery(sqlQuery, sqlModel.SqlParams.ToArray());
-        //    return View(essays.ToList());
-        //}
+        [HttpPost]
+        public ActionResult EssaySearchUz()
+        {
+            SqlGenerationModel sqlModel = new SqlGenerationModel(Request.Form);
+
+            string sqlQuery = sqlModel.GenerateSqlQuery("uzessays");
+            Debug.WriteLine(sqlQuery);
+            var essays = db.UzEssays.SqlQuery(sqlQuery, sqlModel.SqlParams.ToArray());
+            return PartialView("SearchUz", essays.ToList());
+        }
+        
 
         [HttpGet]
         [Authorize(Users = "Admin")]
@@ -82,7 +87,12 @@ namespace SGICInfoSystem.Controllers
         {
             return View();
         }
-
+        [HttpGet]
+        [Authorize(Users = "Admin")]
+        public ActionResult CreateUz()
+        {
+            return View();
+        }
         [HttpPost]
         [Authorize(Users = "Admin")]
         public ActionResult Create(Essay essay)
@@ -92,11 +102,29 @@ namespace SGICInfoSystem.Controllers
 
             return RedirectToAction("Table");
         }
+        [HttpPost]
+        [Authorize(Users = "Admin")]
+        public ActionResult CreateUz(UzEssay essay)
+        {
+            db.UzEssays.Add(essay);
+            db.SaveChanges();
+
+            return RedirectToAction("TableUz");
+        }
         [HttpGet]
         [Authorize(Users = "Admin")]
         public ActionResult Delete(int id)
         {
             Essay essay = db.Essays.Find(id);
+            if (essay == null)
+                return HttpNotFound();
+            return View(essay);
+        }
+        [HttpGet]
+        [Authorize(Users = "Admin")]
+        public ActionResult DeleteUz(int id)
+        {
+            UzEssay essay = db.UzEssays.Find(id);
             if (essay == null)
                 return HttpNotFound();
             return View(essay);
@@ -112,6 +140,17 @@ namespace SGICInfoSystem.Controllers
             db.SaveChanges();
             return RedirectToAction("Table");
         }
+        [HttpPost, ActionName("Delete")]
+        [Authorize(Users = "Admin")]
+        public ActionResult DeleteConfirmedUz(int id)
+        {
+            UzEssay essay = db.UzEssays.Find(id);
+            if (essay == null)
+                return HttpNotFound();
+            db.UzEssays.Remove(essay);
+            db.SaveChanges();
+            return RedirectToAction("TableUz");
+        }
         [HttpGet]
         [Authorize(Users = "Admin")]
         public ActionResult EditEssay(int? id)
@@ -119,6 +158,17 @@ namespace SGICInfoSystem.Controllers
             if (id == null)
                 return HttpNotFound();
             Essay essay = db.Essays.Find(id);
+            if (essay != null)
+                return View(essay);
+            return HttpNotFound();
+        }
+        [HttpGet]
+        [Authorize(Users = "Admin")]
+        public ActionResult EditEssayUz(int? id)
+        {
+            if (id == null)
+                return HttpNotFound();
+            UzEssay essay = db.UzEssays.Find(id);
             if (essay != null)
                 return View(essay);
             return HttpNotFound();
@@ -131,11 +181,28 @@ namespace SGICInfoSystem.Controllers
             db.SaveChanges();
             return RedirectToAction("Table");
         }
+        [HttpPost]
+        [Authorize(Users = "Admin")]
+        public ActionResult EditEssayUz(UzEssay essay)
+        {
+            db.Entry(essay).State = System.Data.Entity.EntityState.Modified;
+            db.SaveChanges();
+            return RedirectToAction("TableUz");
+        }
         public ActionResult Details(int? id)
         {
             if (id == null)
                 return HttpNotFound();
             Essay essay = db.Essays.Find(id);
+            if (essay != null)
+                return View(essay);
+            return HttpNotFound();
+        }
+        public ActionResult DetailsUz(int? id)
+        {
+            if (id == null)
+                return HttpNotFound();
+            UzEssay essay = db.UzEssays.Find(id);
             if (essay != null)
                 return View(essay);
             return HttpNotFound();
@@ -153,32 +220,96 @@ namespace SGICInfoSystem.Controllers
 
             return View();
         }
-        public void ReportWord()
+        public ActionResult ActionHandlers()
         {
             if (Request.Form["Word"] != null)
             {
-                string[] ids = this.Request.Form["ID"].Split(new char[] { ',' });
-                StringBuilder sb = new StringBuilder();
-                foreach (string id in ids)
+                if (this.Request.Form["ID"] != null)
                 {
-                    var essay = this.db.Essays.Find(int.Parse(id));
-                    sb.Append(essay).Append("\n\n");
+                    string[] ids = this.Request.Form["ID"].Split(new char[] { ',' });
+                    StringBuilder sb = new StringBuilder();
+                    foreach (string id in ids)
+                    {
+                        var essay = this.db.Essays.Find(int.Parse(id));
+                        sb.Append(essay).Append("\n\n");
+                    }
+
+                    // Clear all the content from the current response
+                    // Очистить содержимое текущего запроса
+                    Response.ClearContent();
+                    Response.Buffer = true;
+                    // set the header
+                    // Установить заголовок
+                    Response.AddHeader("content-disposition", "attachment; filename = report.doc");
+                    Response.ContentType = "application/ms-word";
+                    Response.Charset = "utf-8";
+
+                    Response.Output.Write(sb.ToString());
+                    Response.Flush();
+                    return new EmptyResult();
                 }
-
-                // Clear all the content from the current response
-                // Очистить содержимое текущего запроса
-                Response.ClearContent();
-                Response.Buffer = true;
-                // set the header
-                // Установить заголовок
-                Response.AddHeader("content-disposition", "attachment; filename = report.doc");
-                Response.ContentType = "application/ms-word";
-                Response.Charset = "";
-
-
-                Response.Output.Write(sb.ToString());
-                Response.Flush();
             }
+            else if (this.Request.Form["DeleteChecked"] != null)
+            {
+                if (this.Request.Form["ID"] != null)
+                {
+                    string[] ids = this.Request.Form["ID"].Split(new char[] { ',' });
+
+                    foreach (string id in ids)
+                    {
+                        var essay = this.db.Essays.Find(int.Parse(id));
+                        this.db.Essays.Remove(essay);
+                        this.db.SaveChanges();
+                        Debug.WriteLine(essay.Naz);
+                    }
+                }
+            }
+            return RedirectToAction("Table");
+        }
+        public ActionResult ActionHandlersUz()
+        {
+            if (Request.Form["Word"] != null)
+            {
+                if (this.Request.Form["ID"] != null)
+                {
+                    string[] ids = this.Request.Form["ID"].Split(new char[] { ',' });
+                    StringBuilder sb = new StringBuilder();
+                    foreach (string id in ids)
+                    {
+                        var essay = this.db.UzEssays.Find(int.Parse(id));
+                        sb.Append(essay).Append("\n\n");
+                    }
+
+                    // Clear all the content from the current response
+                    // Очистить содержимое текущего запроса
+                    Response.ClearContent();
+                    Response.Buffer = true;
+                    // set the header
+                    // Установить заголовок
+                    Response.AddHeader("content-disposition", "attachment; filename = report.doc");
+                    Response.ContentType = "application/ms-word";
+                    Response.Charset = "utf-8";
+
+                    Response.Output.Write(sb.ToString());
+                    Response.Flush();
+                    return new EmptyResult();
+                }
+            }
+            else if (this.Request.Form["DeleteChecked"] != null)
+            {
+                if (this.Request.Form["ID"] != null)
+                {
+                    string[] ids = this.Request.Form["ID"].Split(new char[] { ',' });
+
+                    foreach (string id in ids)
+                    {
+                        var essay = this.db.UzEssays.Find(int.Parse(id));
+                        this.db.UzEssays.Remove(essay);
+                        this.db.SaveChanges();
+                    }
+                }
+            }
+            return RedirectToAction("Table");
         }
         protected override void Dispose(bool disposing)
         {

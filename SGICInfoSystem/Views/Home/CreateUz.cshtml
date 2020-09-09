@@ -1,7 +1,7 @@
-﻿@model SGICInfoSystem.Models.Essay
+﻿@model SGICInfoSystem.Models.UzEssay
 
 @{
-    ViewBag.Title = "Добавить запись";
+    ViewBag.Title = "Қўшиш";
 }
 <style>
     textarea {
@@ -10,7 +10,7 @@
     }
 </style>
 
-<h2>Добавить запись</h2>
+<h2>Қўшиш</h2>
 
 
 @using (Html.BeginForm()) 
@@ -134,7 +134,7 @@
 }
 
 <div>
-    @Html.ActionLink("Назад", "Table")
+    @Html.ActionLink("Назад", "TableUz")
 </div>
 
 @section Scripts {

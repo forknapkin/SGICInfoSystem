@@ -9,6 +9,7 @@ namespace SGICInfoSystem.Models
     public class GeologiyaContext : DbContext
     {
         public DbSet<Essay> Essays { get; set; }
+        public DbSet<UzEssay> UzEssays { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Duplicate> Duplictes { get; set; }
     }

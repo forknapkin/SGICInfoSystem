@@ -1,25 +1,21 @@
-﻿@model SGICInfoSystem.Models.Essay
+﻿@model SGICInfoSystem.Models.UzEssay
 
 @{
-    ViewBag.Title = "Добавить запись";
+    ViewBag.Title = "Редактирование записи";
 }
-<style>
-    textarea {
-        min-width: 600px;
-        min-height: 600px;
-    }
-</style>
 
-<h2>Добавить запись</h2>
+<h2>Редактирование записи</h2>
 
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
 
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Id)
+
         <div class="form-group">
             @Html.LabelFor(model => model.nomer, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -103,8 +99,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Slova, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @*@Html.EditorFor(model => model.Slova, new { htmlAttributes = new { @class = "form-control" } })*@
-                @Html.TextAreaFor(model => model.Slova, new { htmlAttributes = new { @class = "form-control", rows = "5" } })
+                @Html.EditorFor(model => model.Slova, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Slova, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -112,7 +107,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Referat, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.TextAreaFor(model => model.Referat, new { htmlAttributes = new { @class = "form-control", rows ="10" } })
+                @Html.EditorFor(model => model.Referat, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Referat, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -127,14 +122,14 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Создать" class="btn btn-default" />
+                <input type="submit" value="Save" class="btn btn-default" />
             </div>
         </div>
     </div>
 }
 
 <div>
-    @Html.ActionLink("Назад", "Table")
+    @Html.ActionLink("Назад к записям", "Table")
 </div>
 
 @section Scripts {

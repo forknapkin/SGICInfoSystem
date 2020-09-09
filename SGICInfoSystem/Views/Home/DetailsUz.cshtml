@@ -1,5 +1,8 @@
-﻿@model SGICInfoSystem.Models.Essay
+﻿@model SGICInfoSystem.Models.UzEssay
 @using Microsoft.AspNet.Identity
+@{
+    ViewBag.Title = "Details";
+}
 
 <div>
 
@@ -110,10 +113,9 @@
 
     </dl>
 </div>
-<p>
-@if (User.Identity.GetUserName() == "Admin")
+<p>@if (User.Identity.GetUserName() == "Admin")
 {
-    @Html.ActionLink("Изменить", "EditEssay", new { id = Model.Id }) 
-                                                                     }
-    @Html.ActionLink("Назад", "Table")
+    @Html.ActionLink("Изменить", "EditEssayUz", new { id = Model.Id }) 
+                                                                       }
+@Html.ActionLink("Назад", "TableUz")
 </p>

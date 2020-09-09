@@ -7,7 +7,7 @@ using System.Web;
 
 namespace SGICInfoSystem.Models
 {
-    public class Essay
+    public class UzEssay
     {
         public int Id { get; set; }
 

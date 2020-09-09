@@ -88,12 +88,7 @@
     <div class="main" id="mainTable">
         @* @Html.Partial("Search")*@
         <h2>Рефераты</h2>
-        @if (User.Identity.GetUserName() == "Admin")
-        {
-            <p>
-                @Html.ActionLink("Добавить запись", "Create")
-            </p>
-        }
+        
         <p>
             Найдено записей: @ViewBag.Count
         </p>

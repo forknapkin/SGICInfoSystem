@@ -1,12 +1,11 @@
-﻿@model PagedList.IPagedList<SGICInfoSystem.Models.Essay>
+﻿@model PagedList.IPagedList<SGICInfoSystem.Models.UzEssay>
 @using Microsoft.AspNet.Identity
 @using SGICInfoSystem.Helpers
 @using PagedList.Mvc;
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
-@*@model IEnumerable<SGICInfoSystem.Models.Essay>*@
 
 @{
-    ViewBag.Title = "Рефераты";
+    ViewBag.Title = "Рефератлар";
 }
 
 
@@ -75,18 +74,15 @@
     input[type="radio"] {
     }
     .chkCheckBoxId{}
-    .pagination-container{
-        z-index:0;
-    }
 </style>
 <div class="searchpan">
     @*@using (Html.BeginForm())*@
-    @using (Ajax.BeginForm("EssaySearch", new AjaxOptions { UpdateTargetId = "mainTable" }))
+    @using (Ajax.BeginForm("EssaySearchUz", new AjaxOptions { UpdateTargetId = "mainTable" }))
     
 {
         <div class="divinline">
             @Html.CheckBox("CbNumber")
-            @Html.Label("lblNumber", "Номер")
+            @Html.Label("lblNumber", "Рақами")
         </div>
         <div class="divinline">
             @Html.TextBox("TbNumber")
@@ -94,7 +90,7 @@
 
         <div class="divinline">
             @Html.CheckBox("CbToNumber")
-            @Html.Label("lblToNumber", "До")
+            @Html.Label("lblToNumber", "Рақамгача")
         </div>
         <div class="divinline">
             @Html.TextBox("TbToNumber")
@@ -110,14 +106,14 @@
 
         <div class="divinline">
             @Html.CheckBox("cbauthor")
-            @Html.Label("cbauthor", "Автор")
+            @Html.Label("cbauthor", "Муаллиф")
         </div>
         <div class="divinline">
             @Html.TextBox("tbauthor")
         </div>
         <div class="divinline">
             @Html.CheckBox("cbnaz")
-            @Html.Label("cbnaz", "Название")
+            @Html.Label("cbnaz", "Номи")
         </div>
         <div class="divinline">
             @Html.TextBox("tbnaz")
@@ -125,35 +121,35 @@
 
         <div class="divinline">
             @Html.CheckBox("cborg")
-            @Html.Label("cborg", "Организация")
+            @Html.Label("cborg", "Ташкилот")
         </div>
         <div class="divinline">
             @Html.TextBox("tborg")
         </div>
         <div class="divinline">
             @Html.CheckBox("cbgorod")
-            @Html.Label("cbgorod", "Город")
+            @Html.Label("cbgorod", "Шаҳар")
         </div>
         <div class="divinline">
             @Html.TextBox("tbgorod")
         </div>
         <div class="divinline">
             @Html.CheckBox("cbgod")
-            @Html.Label("lblgod", "Год")
+            @Html.Label("lblgod", "Йил")
         </div>
         <div class="divinline">
             @Html.TextBox("tbgod")
         </div>
         <div class="divinline">
             @Html.CheckBox("cbtogod")
-            @Html.Label("lbltogod", "До")
+            @Html.Label("lbltogod", "йилгача")
         </div>
         <div class="divinline">
             @Html.TextBox("tbtogod")
         </div>
         <div class="divinline">
             @Html.CheckBox("cbslova")
-            @Html.Label("lblslova", "Ключевые слова")
+            @Html.Label("lblslova", "Асосий сўзлар")
         </div>
         <div class="divinline">
             @Html.RadioButton("rbslova", "and", true)
@@ -168,7 +164,7 @@
         </div>
         <div class="divinline">
             @Html.CheckBox("cbexslova")
-            @Html.Label("lblexslova", "Исключения по кл. словам")
+            @Html.Label("lblexslova", "Чиқариб ташлаш")
         </div>
         <div class="divinline">
             @Html.RadioButton("rbexslova", "И", true)
@@ -194,18 +190,18 @@
         </div>
         <div class="divinline">
             @Html.CheckBox("cbplace")
-            @Html.Label("cbplace", "Место")
+            @Html.Label("cbplace", "Сақлаш жойи")
         </div>
         <div class="divinline">
             @Html.TextBox("tbplace")
         </div>
         <div class="divinline">
-            <input type="submit" value="Поиск" class="btn btn-default" />
+            <input type="submit" value="Излаш" class="btn btn-default" />
         </div>
     }
 
 </div>
-@using (Html.BeginForm("ActionHandlers", "Home"))
+@using (Html.BeginForm("ActionHandlersUz", "Home"))
 {
 <div class="toolbar">
     <input type="submit" id="btnWord" name="Word" value="Word" class="btn btn-default" />
@@ -226,11 +222,11 @@
     @if (User.Identity.GetUserName() == "Admin")
     {
         <p>
-            @Html.ActionLink("Добавить запись", "Create")
+            @Html.ActionLink("Қўшиш", "CreateUz")
         </p>
     }
     <p>
-        Найдено записей: @ViewBag.Count
+        Ёзувлар: @ViewBag.Count
     </p>
     <table class="table" id="dataTable">
         <thead>
@@ -290,12 +286,12 @@
                     @if (User.Identity.GetUserName() == "Admin")
                     {
                         <td>
-                            @Html.ActionLink("Изменить", "EditEssay", new { id = item.Id }) |
-                            @Html.ActionLink("Удалить", "Delete", new { id = item.Id })
+                            @Html.ActionLink("Ўзгартириш", "EditEssayUz", new { id = item.Id }) |
+                            @Html.ActionLink("Олиб ташлаш", "DeleteUz", new { id = item.Id })
                         </td>
                     }
                     <td>
-                        @Html.ActionLink("Просмотр", "Details", new { id = item.Id })
+                        @Html.ActionLink("Кўриш", "DetailsUz", new { id = item.Id })
                     </td>
                     <td><input type="checkbox" class="chkCheckBoxId" name="ID" value="@item.Id" /></td>
                     <td>
@@ -345,7 +341,7 @@
     <br />
     Страница @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) из @Model.PageCount
 
-    @Html.PagedListPager(Model, page => Url.Action("Table", new { page }))
+    @Html.PagedListPager(Model, page => Url.Action("TableUz", new { page }))
 </div>
 }
 <script>

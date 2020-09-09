@@ -22,9 +22,9 @@ namespace SGICInfoSystem.Models
             this.form = form;
             SqlParams = new List<SqlParameter>();
         }
-        public string GenerateSqlQuery()
+        public string GenerateSqlQuery(string tableName)
         {
-            StringBuilder sqlQuery = new StringBuilder("select * from essays where ");//27 символов
+            StringBuilder sqlQuery = new StringBuilder("select * from ").Append(tableName).Append(" where ");//27 символов
             
             if (form["CbNumber"].Split(',')[0] == "true")
                 sqlQuery.Append(this.NumberChecked());

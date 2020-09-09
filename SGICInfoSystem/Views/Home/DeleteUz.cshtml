@@ -1,6 +1,12 @@
-﻿@model SGICInfoSystem.Models.Essay
-@using Microsoft.AspNet.Identity
+﻿@model SGICInfoSystem.Models.UzEssay
 
+@{
+    ViewBag.Title = "Удаление записи";
+}
+
+<h2>Удаление записи</h2>
+
+<h3>Вы уверены что хотите удлить запись?</h3>
 <div>
 
     <dl class="dl-horizontal">
@@ -109,11 +115,13 @@
         </dd>
 
     </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Назад к записям", "TableUz")
+        </div>
+    }
 </div>
-<p>
-@if (User.Identity.GetUserName() == "Admin")
-{
-    @Html.ActionLink("Изменить", "EditEssay", new { id = Model.Id }) 
-                                                                     }
-    @Html.ActionLink("Назад", "Table")
-</p>
