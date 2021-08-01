@@ -1,12 +1,13 @@
 ﻿@model SGICInfoSystem.Models.UzEssay
 
 @{
-    ViewBag.Title = "Удаление записи";
+    Layout = "~/Views/Shared/_LayoutUz.cshtml";
+
+    ViewBag.Title = "Ёзувни олиб ташлаш";
 }
 
-<h2>Удаление записи</h2>
+<h2>Ёзувни олиб ташлаш</h2>
 
-<h3>Вы уверены что хотите удлить запись?</h3>
 <div>
 
     <dl class="dl-horizontal">
@@ -120,8 +121,8 @@
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Назад к записям", "TableUz")
+            <input type="submit" value="Ok" class="btn btn-default" /> |
+            @Html.ActionLink("Орқага", "TableUz")
         </div>
     }
 </div>

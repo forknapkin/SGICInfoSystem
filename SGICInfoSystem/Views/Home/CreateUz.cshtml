@@ -1,12 +1,17 @@
 ﻿@model SGICInfoSystem.Models.UzEssay
 
 @{
+    Layout = "~/Views/Shared/_LayoutUz.cshtml";
+
     ViewBag.Title = "Қўшиш";
 }
 <style>
     textarea {
         min-width: 600px;
-        min-height: 600px;
+        min-height: 300px;
+    }
+     input[type="text"]{
+        min-width: 600px;
     }
 </style>
 
@@ -127,14 +132,14 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Создать" class="btn btn-default" />
+                <input type="submit" value="Яраташ" class="btn btn-default" />
             </div>
         </div>
     </div>
 }
 
 <div>
-    @Html.ActionLink("Назад", "TableUz")
+    @Html.ActionLink("Орқага", "TableUz")
 </div>
 
 @section Scripts {

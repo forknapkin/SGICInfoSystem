@@ -1,0 +1,26 @@
+﻿@model IEnumerable<System.String>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>FindRow</title>
+</head>
+<body>
+   
+    <table class="table">
+       
+    @foreach (var item in Model) {
+        <tr>
+            @item
+        </tr>
+    }
+    
+    </table>
+</body>
+</html>

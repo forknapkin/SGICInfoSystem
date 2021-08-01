@@ -38,10 +38,14 @@ namespace SGICInfoSystem.Models
         [Display(Name = "Место")]
         public bool Mesto { get; set; }
 
+        public DisplayFilterModel()
+        {
+        }
         public DisplayFilterModel(string display)
         {
             Display = display;
         }
+
         public DisplayFilterModel DefaultDisplayFilter()
         {
             nomer = tema1 = tema2 = Aftor = Naz = Org = Gorod = God = Str = Ilustr

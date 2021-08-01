@@ -187,6 +187,8 @@
     <Compile Include="Helpers\PagingHelpers.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\DisplayFilterModel.cs" />
+    <Compile Include="Models\Log.cs" />
+    <Compile Include="Models\UzDuplicate.cs" />
     <Compile Include="Models\Duplicate.cs" />
     <Compile Include="Models\UzEssay.cs" />
     <Compile Include="Models\Essay.cs" />
@@ -202,14 +204,20 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\docs.css" />
+    <Content Include="Content\flag-icon.css" />
+    <Content Include="Content\flag-icon.min.css" />
     <Content Include="Content\PagedList.css" />
     <Content Include="favicon.ico" />
+    <Content Include="flags\4x3\ru.svg" />
+    <Content Include="flags\4x3\uz.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <None Include="Properties\PublishProfiles\test.pubxml" />
+    <None Include="Properties\PublishProfiles\aips.pubxml" />
+    <None Include="Properties\PublishProfiles\aipsgeo.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -275,9 +283,26 @@
     <Content Include="Views\Home\EditEssayUz.cshtml" />
     <Content Include="Views\Home\DetailsUz.cshtml" />
     <Content Include="Views\Home\DisplayFilter.cshtml" />
+    <Content Include="Views\Home\EditDisplay.cshtml" />
+    <Content Include="Views\Shared\_LayoutUz.cshtml" />
+    <Content Include="Views\Shared\_LoginPartialUz.cshtml" />
+    <Content Include="Views\Home\DisplayFilterUz.cshtml" />
+    <Content Include="Views\Home\EditDisplayUz.cshtml" />
+    <Content Include="Views\Home\AboutUz.cshtml" />
+    <Content Include="Views\Duplicate\Delete.cshtml" />
+    <Content Include="Views\Duplicate\DeleteUz.cshtml" />
+    <Content Include="Views\Duplicate\EditEssay.cshtml" />
+    <Content Include="Views\Duplicate\EditEssayUz.cshtml" />
+    <Content Include="Views\Duplicate\Details.cshtml" />
+    <Content Include="Views\Duplicate\DetailsUz.cshtml" />
+    <Content Include="Views\Duplicate\IndexUz.cshtml" />
+    <Content Include="Views\Home\Log.cshtml" />
+    <Content Include="Views\Home\LogUz.cshtml" />
+    <Content Include="Views\Home\FindRow.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="flags\1x1\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -289,6 +314,9 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

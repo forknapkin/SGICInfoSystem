@@ -1,0 +1,122 @@
+﻿@model SGICInfoSystem.Models.UzEssay
+@using Microsoft.AspNet.Identity
+@{
+    Layout = "~/Views/Shared/_LayoutUz.cshtml";
+    ViewBag.Title = "Кўриш";
+}
+
+<div>
+
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.nomer)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.nomer)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.tema1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.tema1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.tema2)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.tema2)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Aftor)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Aftor)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Naz)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Naz)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Org)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Org)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Gorod)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Gorod)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.God)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.God)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Str)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Str)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Ilustr)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Ilustr)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Slova)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Slova)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Referat)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Referat)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Mesto)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Mesto)
+        </dd>
+
+    </dl>
+</div>
+<p>@if (User.Identity.GetUserName() == "Admin")
+{
+    @Html.ActionLink("Ўзгартириш | ", "EditEssayUz", new { id = Model.Id }) 
+                                                                       }
+@Html.ActionLink("Орқага", "IndexUz")
+</p>

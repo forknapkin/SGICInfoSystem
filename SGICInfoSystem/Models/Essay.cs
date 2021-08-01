@@ -36,7 +36,7 @@ namespace SGICInfoSystem.Models
         public string Slova { get; set; }
         [Display(Name = "Реферат")]
         public string Referat { get; set; }
-        [Display(Name = "Место")]
+        [Display(Name = "Место хранения")]
         public string Mesto { get; set; }
         public override string ToString()
         {
@@ -53,7 +53,7 @@ namespace SGICInfoSystem.Models
                 .Append("\nИллюстрации: ").Append(Ilustr)
                 .Append("\nКлючевые слова: ").Append(Slova)
                 .Append("\nРеферат: ").Append(Referat)
-                .Append("\nМесто: ").Append(Mesto);
+                .Append("\nМесто хранения: ").Append(Mesto);
             return sb.ToString();
         }
     }

@@ -2,10 +2,21 @@
 @using Microsoft.AspNet.Identity
 @using SGICInfoSystem.Helpers
 @using PagedList.Mvc;
+@using SGICInfoSystem.Models;
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
 @{
+    Layout = "~/Views/Shared/_LayoutUz.cshtml";
     ViewBag.Title = "Рефератлар";
+    DisplayFilterModel filter;
+    if (Session["DisplayFilter"] != null)
+    {
+        filter = ((List<DisplayFilterModel>)Session["DisplayFilter"]).Find(m => m.Display == "Таблица");
+    }
+    else
+    {
+        filter = new DisplayFilterModel("Таблица").DefaultDisplayFilter();
+    }
 }
 
 
@@ -34,26 +45,40 @@
         padding-top: 50px;
         background-color: white;
     }
-    .toolbar{
-        width:100%;
+
+    .toolbar {
+        width: 100%;
         height: 75px;
         position: fixed;
         z-index: 1; /* Оставайтесь с верху */
         bottom: 0; /* Оставайтесь снизу */
         right: 0;
-        overflow: scroll;
+        overflow: auto;
         background-color: white;
         padding-left: 250px;
     }
-    .toolbar input{
-        margin: 10px;
+
+        .toolbar input {
+            margin: 10px;
+            /*background-color: lightgray;*/
+        }
+       /*.btn-default{
+            background-color: lightgray;
+        }*/
+
+    div.container.body-content {
+        margin-left: 0px;
     }
+
     .main {
         margin-left: 250px;
         padding: 0px 10px;
         padding-bottom: 75px;
         /*overflow-x: scroll;*/
     }
+
+
+
 
     .searchpan div {
         padding: 2px 8px 2px 16px;
@@ -73,27 +98,33 @@
 
     input[type="radio"] {
     }
-    .chkCheckBoxId{}
+
+    .chkCheckBoxId {
+    }
+
+    .pagination-container {
+        z-index: 0;
+    }
 </style>
-<div class="searchpan">
+<div class="searchpan" id="searchpan">
     @*@using (Html.BeginForm())*@
     @using (Ajax.BeginForm("EssaySearchUz", new AjaxOptions { UpdateTargetId = "mainTable" }))
     
 {
         <div class="divinline">
-            @Html.CheckBox("CbNumber")
+            @Html.CheckBox("cbNumber")
             @Html.Label("lblNumber", "Рақами")
         </div>
         <div class="divinline">
-            @Html.TextBox("TbNumber")
+            @Html.TextBox("tbNumber", null, new { @class = "searchinput" })
         </div>
 
         <div class="divinline">
-            @Html.CheckBox("CbToNumber")
+            @Html.CheckBox("cbToNumber")
             @Html.Label("lblToNumber", "Рақамгача")
         </div>
         <div class="divinline">
-            @Html.TextBox("TbToNumber")
+            @Html.TextBox("tbToNumber", null, new { @class = "searchinput" })
         </div>
 
         <div class="divinline">
@@ -101,7 +132,7 @@
             @Html.Label("lblrubrika", "Рубрика")
         </div>
         <div class="divinline">
-            @Html.TextBox("tbrubrika")
+            @Html.TextBox("tbrubrika", null, new { @class = "searchinput" })
         </div>
 
         <div class="divinline">
@@ -109,14 +140,14 @@
             @Html.Label("cbauthor", "Муаллиф")
         </div>
         <div class="divinline">
-            @Html.TextBox("tbauthor")
+            @Html.TextBox("tbauthor", null, new { @class = "searchinput" })
         </div>
         <div class="divinline">
             @Html.CheckBox("cbnaz")
             @Html.Label("cbnaz", "Номи")
         </div>
         <div class="divinline">
-            @Html.TextBox("tbnaz")
+            @Html.TextBox("tbnaz", null, new { @class = "searchinput" })
         </div>
 
         <div class="divinline">
@@ -124,28 +155,28 @@
             @Html.Label("cborg", "Ташкилот")
         </div>
         <div class="divinline">
-            @Html.TextBox("tborg")
+            @Html.TextBox("tborg", null, new { @class = "searchinput" })
         </div>
         <div class="divinline">
             @Html.CheckBox("cbgorod")
             @Html.Label("cbgorod", "Шаҳар")
         </div>
         <div class="divinline">
-            @Html.TextBox("tbgorod")
+            @Html.TextBox("tbgorod", null, new { @class = "searchinput" })
         </div>
         <div class="divinline">
             @Html.CheckBox("cbgod")
             @Html.Label("lblgod", "Йил")
         </div>
         <div class="divinline">
-            @Html.TextBox("tbgod")
+            @Html.TextBox("tbgod", null, new { @class = "searchinput" })
         </div>
         <div class="divinline">
             @Html.CheckBox("cbtogod")
             @Html.Label("lbltogod", "йилгача")
         </div>
         <div class="divinline">
-            @Html.TextBox("tbtogod")
+            @Html.TextBox("tbtogod", null, new { @class = "searchinput" })
         </div>
         <div class="divinline">
             @Html.CheckBox("cbslova")
@@ -160,7 +191,7 @@
             @Html.Label("Сложный", "Сложный")
         </div>
         <div class="divinline">
-            @Html.TextBox("tbslova")
+            @Html.TextBox("tbslova", null, new { @class = "searchinput" })
         </div>
         <div class="divinline">
             @Html.CheckBox("cbexslova")
@@ -175,7 +206,7 @@
             @Html.Label("Сложный", "Сложный")
         </div>
         <div class="divinline">
-            @Html.TextBox("tbexslova")
+            @Html.TextBox("tbexslova", null, new { @class = "searchinput" })
         </div>
         <div class="divinline">
             @Html.CheckBox("cbaccuracy")
@@ -186,14 +217,14 @@
             @Html.Label("cbreferat", "Реферат")
         </div>
         <div class="divinline">
-            @Html.TextBox("tbreferat")
+            @Html.TextBox("tbreferat", null, new { @class = "searchinput" })
         </div>
         <div class="divinline">
             @Html.CheckBox("cbplace")
             @Html.Label("cbplace", "Сақлаш жойи")
         </div>
         <div class="divinline">
-            @Html.TextBox("tbplace")
+            @Html.TextBox("tbplace", null, new { @class = "searchinput" })
         </div>
         <div class="divinline">
             <input type="submit" value="Излаш" class="btn btn-default" />
@@ -204,12 +235,13 @@
 @using (Html.BeginForm("ActionHandlersUz", "Home"))
 {
 <div class="toolbar">
-    <input type="submit" id="btnWord" name="Word" value="Word" class="btn btn-default" />
+    <input type="submit" id="btnWord" name="Word" value="Ҳисобот" class="btn btn-default" />
     @if (User.Identity.GetUserName() == "Admin")
     {
-    <input type="submit" id="btnDeleteChecked" name="DeleteChecked" value="Удалить выбранные" class="btn btn-default" />
-
-    @Html.ActionLink("Дуплетные", "Index", "Duplicate", null, new { @class = "btn btn-default" })
+        <input type="submit" id="btnDeleteChecked" name="DeleteChecked" value="Олиб ташлаш" class="btn btn-default" />
+        <input type="submit" id="btnDuplicate" name="Duplicate" value="Такрорлар" class="btn btn-default" />
+        <input type="submit" id="btnLog" name="Log" value="Журнал" class="btn btn-default" />
+        @*@Html.ActionLink("Такрорлар", "IndexUz", "Duplicate", null, new { @class = "btn btn-default" })*@
     }
     @*<input type="submit" id="btnWord2" name ="Word2" value="Word2" class="btn btn-default" />
     <input type="button" value="Word2" onclick="location.href='@Url.Action("ReportWord", "Home")'" />
@@ -237,46 +269,84 @@
                 }
                 <th></th>
                 <th><input type="checkbox" id="checkBoxAll" /></th>
+                @if (filter.nomer)
+                {
                 <th>
                     @Html.DisplayNameFor(model => model.FirstOrDefault().nomer)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.FirstOrDefault().tema1)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.FirstOrDefault().tema2)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.FirstOrDefault().Aftor)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.FirstOrDefault().Naz)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.FirstOrDefault().Org)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.FirstOrDefault().Gorod)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.FirstOrDefault().God)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.FirstOrDefault().Str)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.FirstOrDefault().Ilustr)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.FirstOrDefault().Slova)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.FirstOrDefault().Referat)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.FirstOrDefault().Mesto)
-                </th>
+                </th>}
+                @if (filter.tema1)
+                {
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().tema1)
+                    </th>
+                }
+                @if (filter.tema2)
+                {
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().tema2)
+                    </th>
+                }
+                @if (filter.Aftor)
+                {
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().Aftor)
+                    </th>
+                }
+                @if (filter.Naz)
+                {
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().Naz)
+                    </th>
+                }
+                @if (filter.Org)
+                {
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().Org)
+                    </th>
+                }
+                @if (filter.Gorod)
+                {
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().Gorod)
+                    </th>
+                }
+                @if (filter.God)
+                {
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().God)
+                    </th>
+                }
+                @if (filter.Str)
+                {
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().Str)
+                    </th>
+                }
+                @if (filter.Ilustr)
+                {
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().Ilustr)
+                    </th>
+                }
+                @if (filter.Slova)
+                {
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().Slova)
+                    </th>
+                }
+                @if (filter.Referat)
+                {
 
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().Referat)
+                    </th>
+                }
+                @if (filter.Mesto)
+                {
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().Mesto)
+                    </th>
+                }
             </tr>
         </thead>
         <tbody>
@@ -294,52 +364,89 @@
                         @Html.ActionLink("Кўриш", "DetailsUz", new { id = item.Id })
                     </td>
                     <td><input type="checkbox" class="chkCheckBoxId" name="ID" value="@item.Id" /></td>
+                    @if (filter.nomer)
+                    {
                     <td>
                         @Html.DisplayFor(modelItem => item.nomer)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.tema1)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.tema2)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Aftor)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Naz)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Org)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Gorod)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.God)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Str)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Ilustr)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Slova)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Referat)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Mesto)
-                    </td>
-
+                    </td>}
+                    @if (filter.tema1)
+                    {
+                        <td>
+                            @Html.DisplayFor(modelItem => item.tema1)
+                        </td>
+                    }
+                    @if (filter.tema2)
+                    {
+                        <td>
+                            @Html.DisplayFor(modelItem => item.tema2)
+                        </td>
+                    }
+                    @if (filter.Aftor)
+                    {
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Aftor)
+                        </td>
+                    }
+                    @if (filter.Naz)
+                    {
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Naz)
+                        </td>
+                    }
+                    @if (filter.Org)
+                    {
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Org)
+                        </td>
+                    }
+                    @if (filter.Gorod)
+                    {
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Gorod)
+                        </td>
+                    }
+                    @if (filter.God)
+                    {
+                        <td>
+                            @Html.DisplayFor(modelItem => item.God)
+                        </td>
+                    }
+                    @if (filter.Str)
+                    {
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Str)
+                        </td>
+                    }
+                    @if (filter.Ilustr)
+                    {
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Ilustr)
+                        </td>
+                    }
+                    @if (filter.Slova)
+                    {
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Slova)
+                        </td>
+                    }
+                    @if (filter.Referat)
+                    {
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Referat)
+                        </td>
+                    }
+                    @if (filter.Mesto)
+                    {
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Mesto)
+                        </td>
+                    }
                 </tr>
             }
         </tbody>
     </table>
     <br />
-    Страница @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) из @Model.PageCount
+    Бет @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) @Model.PageCount дан
 
     @Html.PagedListPager(Model, page => Url.Action("TableUz", new { page }))
 </div>

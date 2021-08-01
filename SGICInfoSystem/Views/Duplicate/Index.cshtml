@@ -4,7 +4,7 @@
 @using PagedList.Mvc;
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 @{
-    ViewBag.Title = "Дуплетные записи";
+    ViewBag.Title = "Повторы";
 }
 
 <style>
@@ -78,12 +78,15 @@
     .chkCheckBoxId {
     }
 </style>
-@using (Html.BeginForm("ReportWord", "Home"))
+@using (Html.BeginForm("ActionHandlers", "Home"))
 {
     <div class="toolbar">
-        <input type="submit" id="btnWord" name="Word" value="Word" class="btn btn-default" />
-        @*<input type="submit" id="btnWord2" name ="Word2" value="Word2" class="btn btn-default" />
-            <input type="button" value="Word2" onclick="location.href='@Url.Action("ReportWord", "Home")'" />*@
+        <input type="submit" id="btnWord" name="Word" value="Отчет" class="btn btn-default" />
+        @if (User.Identity.GetUserName() == "Admin")
+        {
+            <input type="submit" id="btnDeleteChecked" name="DeleteChecked" value="Удалить выбранные" class="btn btn-default" />
+        }
+        <input type="hidden" name="duplicate" />
     </div>
     <div class="main" id="mainTable">
         @* @Html.Partial("Search")*@

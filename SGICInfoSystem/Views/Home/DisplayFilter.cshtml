@@ -6,7 +6,7 @@
 
 @using (Html.BeginForm("DisplayFilter", "Home"))
 {
-<table class="table">
+<table id="filterTable" class="table">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.Display)
@@ -50,6 +50,7 @@
         <th>
             @Html.DisplayNameFor(model => model.Mesto)
         </th>
+        <th></th>
     </tr>
 
 @foreach (var item in Model)
@@ -59,47 +60,50 @@
             @Html.DisplayFor(modelItem => item.Display)
         </td>
         <td>
-            @Html.EditorFor(modelItem => item.nomer)
+            @Html.DisplayFor(modelItem => item.nomer)
         </td>
         <td>
-            @Html.EditorFor(modelItem => item.tema1)
+            @Html.DisplayFor(modelItem => item.tema1)
         </td>
         <td>
-            @Html.EditorFor(modelItem => item.tema2)
+            @Html.DisplayFor(modelItem => item.tema2)
         </td>
         <td>
-            @Html.EditorFor(modelItem => item.Aftor)
+            @Html.DisplayFor(modelItem => item.Aftor)
         </td>
         <td>
-            @Html.EditorFor(modelItem => item.Naz)
+            @Html.DisplayFor(modelItem => item.Naz)
         </td>
         <td>
-            @Html.EditorFor(modelItem => item.Org)
+            @Html.DisplayFor(modelItem => item.Org)
         </td>
         <td>
-            @Html.EditorFor(modelItem => item.Gorod)
+            @Html.DisplayFor(modelItem => item.Gorod)
         </td>
         <td>
-            @Html.EditorFor(modelItem => item.God)
+            @Html.DisplayFor(modelItem => item.God)
         </td>
         <td>
-            @Html.EditorFor(modelItem => item.Str)
+            @Html.DisplayFor(modelItem => item.Str)
         </td>
         <td>
-            @Html.EditorFor(modelItem => item.Ilustr)
+            @Html.DisplayFor(modelItem => item.Ilustr)
         </td>
         <td>
-            @Html.EditorFor(modelItem => item.Slova)
+            @Html.DisplayFor(modelItem => item.Slova)
         </td>
         <td>
-            @Html.EditorFor(modelItem => item.Referat)
+            @Html.DisplayFor(modelItem => item.Referat)
         </td>
         <td>
-            @Html.EditorFor(modelItem => item.Mesto)
+            @Html.DisplayFor(modelItem => item.Mesto)
         </td>
-    </tr>
+        <td>
+            @Html.ActionLink("Изменить", "EditDisplay", new {  display = item.Display })
+         </td>
+</tr>
 }
 
 </table>
-<input type="submit" value="OK" class="btn btn-default" />
+
 }

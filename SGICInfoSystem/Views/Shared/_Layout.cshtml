@@ -3,12 +3,64 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - ИПС</title>
+    <title>@ViewBag.Title - АИПС Геолфонд</title>
     
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-    
+    <style>
+        .navbar-inverse {
+            background-color: #428bca /*#4CAF50*/;
+            border: none;
+        }
+
+            .navbar-inverse .navbar-nav > li > a {
+                color: white;
+            }
+
+        table {
+            border-collapse: collapse;
+        }
+
+        table, th, td, tr, thead {
+            border: 1px solid black;
+        }
+
+        thead {
+            background-color: #dddddd;
+        }
+
+        table tr:nth-child(even) {
+            background: #f5f5f5;
+        }
+
+        table tr {
+            transition: all .3s;
+        }
+
+            table tr:hover {
+                background-color: #ccc;
+            }
+
+        .table thead > tr > th {
+            vertical-align: bottom;
+            border: 1px solid black;
+        }
+        .table tbody > tr > th {
+            vertical-align: bottom;
+            border: 1px solid black;
+        }
+        .toolbar {
+            /*border-top: 1px solid black;*/
+            background-color: #4CAF50;
+        }
+
+        .btn-default {
+            background-color: #428bca;
+            color: white;
+        }
+    </style>
 </head>
+
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
@@ -18,14 +70,14 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("ИПС", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @*@Html.ActionLink("ИПС", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })*@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Главная", "Index", "Home")</li>
-                    <li>@Html.ActionLink("Описание", "About", "Home")</li>
-                    <li>@Html.ActionLink("Поиск", "Table", "Home")</li>
-                    <li>@Html.ActionLink("Отображение", "DisplayFilter", "Home")</li>
+                    <li>@Html.ActionLink("Язык", "Index", "Home")</li>
+                    <li>@Html.ActionLink("Руководство пользователя", "About", "Home")</li>
+                    <li>@Html.ActionLink("Рефераты", "Table", "Home")</li>
+                    <li>@Html.ActionLink("Вид", "DisplayFilter", "Home")</li>
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
@@ -55,6 +107,20 @@
                     $(".chkCheckBoxId").prop("checked", false)
                 }
             });
+        });
+        $('#searchpan').on('input', '.searchinput', function () {
+            var x = document.getElementsByClassName("searchinput");
+            var i;
+            for (i = 0; i < x.length; i++) {
+                var element = document.getElementById($(x[i]).attr('id'));
+                var n = String(element.id);
+                n = n.substring(2);
+                if (element.value.length > 0) {
+                    document.getElementById('cb' + n).checked = true;
+                } else {
+                    document.getElementById('cb' + n).checked = false;
+                }
+            }
         });
     </script>
     @RenderSection("scripts", required: false)

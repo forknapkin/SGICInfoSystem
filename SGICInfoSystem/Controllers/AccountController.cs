@@ -69,12 +69,11 @@ namespace SGICInfoSystem.Controllers
                 User user = null;
                 using (GeologiyaContext db = new GeologiyaContext())
                 {
-                    user = db.Users.FirstOrDefault(u => u.UserName == model.UserName && u.Password == model.Password);
-
+                    user = db.Users.FirstOrDefault(u => u.UserName.Equals(model.UserName, StringComparison.Ordinal) && u.Password.Equals(model.Password));
                 }
                 if (user != null)
                 {
-                    FormsAuthentication.SetAuthCookie(model.UserName, true);
+                    FormsAuthentication.SetAuthCookie(user.UserName, true);
                     return RedirectToAction("Index", "Home");
                 }
                 else

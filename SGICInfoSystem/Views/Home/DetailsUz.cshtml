@@ -1,7 +1,8 @@
 ﻿@model SGICInfoSystem.Models.UzEssay
 @using Microsoft.AspNet.Identity
 @{
-    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_LayoutUz.cshtml";
+    ViewBag.Title = "Кўриш";
 }
 
 <div>
@@ -115,7 +116,7 @@
 </div>
 <p>@if (User.Identity.GetUserName() == "Admin")
 {
-    @Html.ActionLink("Изменить", "EditEssayUz", new { id = Model.Id }) 
+    @Html.ActionLink("Ўзгартириш | ", "EditEssayUz", new { id = Model.Id }) 
                                                                        }
-@Html.ActionLink("Назад", "TableUz")
+@Html.ActionLink("Орқага", "TableUz")
 </p>

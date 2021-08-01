@@ -1,4 +1,5 @@
 ﻿@using Microsoft.AspNet.Identity
+@using SGICInfoSystem.Models;
 @model IEnumerable<SGICInfoSystem.Models.UzEssay>
 <script type="text/javascript">
         $(document).ready(function () {
@@ -13,7 +14,17 @@
             });
         });
 </script>
-
+@{
+    DisplayFilterModel filter;
+    if (Session["DisplayFilter"] != null)
+    {
+        filter = ((List<DisplayFilterModel>)Session["DisplayFilter"]).Find(m => m.Display == "Таблица");
+    }
+    else
+    {
+        filter = new DisplayFilterModel("Таблица").DefaultDisplayFilter();
+    }
+}
 @if (User.Identity.GetUserName() == "Admin")
 {
     <p>
@@ -32,46 +43,84 @@
             }
             <th></th>
             <th><input type="checkbox" id="checkBoxAll" /></th>
-            <th>
-                @Html.DisplayNameFor(model => model.nomer)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.tema1)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.tema2)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Aftor)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Naz)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Org)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Gorod)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.God)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Str)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Ilustr)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Slova)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Referat)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Mesto)
-            </th>
+            @if (filter.nomer)
+            {
+                <th>
+                    @Html.DisplayNameFor(model => model.nomer)
+                </th>}
+            @if (filter.tema1)
+            {
+                <th>
+                    @Html.DisplayNameFor(model => model.tema1)
+                </th>
+            }
+            @if (filter.tema2)
+            {
+                <th>
+                    @Html.DisplayNameFor(model => model.tema2)
+                </th>
+            }
+            @if (filter.Aftor)
+            {
+                <th>
+                    @Html.DisplayNameFor(model => model.Aftor)
+                </th>
+            }
+            @if (filter.Naz)
+            {
+                <th>
+                    @Html.DisplayNameFor(model => model.Naz)
+                </th>
+            }
+            @if (filter.Org)
+            {
+                <th>
+                    @Html.DisplayNameFor(model => model.Org)
+                </th>
+            }
+            @if (filter.Gorod)
+            {
+                <th>
+                    @Html.DisplayNameFor(model => model.Gorod)
+                </th>
+            }
+            @if (filter.God)
+            {
+                <th>
+                    @Html.DisplayNameFor(model => model.God)
+                </th>
+            }
+            @if (filter.Str)
+            {
+                <th>
+                    @Html.DisplayNameFor(model => model.Str)
+                </th>
+            }
+            @if (filter.Ilustr)
+            {
+                <th>
+                    @Html.DisplayNameFor(model => model.Ilustr)
+                </th>
+            }
+            @if (filter.Slova)
+            {
+                <th>
+                    @Html.DisplayNameFor(model => model.Slova)
+                </th>
+            }
+            @if (filter.Referat)
+            {
 
+                <th>
+                    @Html.DisplayNameFor(model => model.Referat)
+                </th>
+            }
+            @if (filter.Referat)
+            {
+                <th>
+                    @Html.DisplayNameFor(model => model.Mesto)
+                </th>
+            }
         </tr>
     </thead>
     <tbody>
@@ -89,46 +138,83 @@
                     @Html.ActionLink("Кўриш", "DetailsUz", new { id = item.Id })
                 </td>
                 <td><input type="checkbox" class="chkCheckBoxId" name="ID" value="@item.Id" /></td>
+                @if (filter.nomer)
+                {
                 <td>
                     @Html.DisplayFor(modelItem => item.nomer)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.tema1)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.tema2)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Aftor)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Naz)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Org)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Gorod)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.God)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Str)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Ilustr)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Slova)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Referat)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Mesto)
-                </td>
-
+                </td>}
+                @if (filter.tema1)
+                {
+                    <td>
+                        @Html.DisplayFor(modelItem => item.tema1)
+                    </td>
+                }
+                @if (filter.tema2)
+                {
+                    <td>
+                        @Html.DisplayFor(modelItem => item.tema2)
+                    </td>
+                }
+                @if (filter.Aftor)
+                {
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Aftor)
+                    </td>
+                }
+                @if (filter.Naz)
+                {
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Naz)
+                    </td>
+                }
+                @if (filter.Org)
+                {
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Org)
+                    </td>
+                }
+                @if (filter.Gorod)
+                {
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Gorod)
+                    </td>
+                }
+                @if (filter.God)
+                {
+                    <td>
+                        @Html.DisplayFor(modelItem => item.God)
+                    </td>
+                }
+                @if (filter.Str)
+                {
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Str)
+                    </td>
+                }
+                @if (filter.Ilustr)
+                {
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Ilustr)
+                    </td>
+                }
+                @if (filter.Slova)
+                {
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Slova)
+                    </td>
+                }
+                @if (filter.Referat)
+                {
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Referat)
+                    </td>
+                }
+                @if (filter.Mesto)
+                {
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Mesto)
+                    </td>
+                }
             </tr>
         }
     </tbody>
